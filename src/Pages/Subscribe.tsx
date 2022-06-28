@@ -1,25 +1,15 @@
 import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Logo } from "../components/Image/Logo";
-
-import { gql, useMutation } from "@apollo/client";
-
-const CREATE_SUBSCRIBER_MUTATION = gql`
-  mutation CreateSubscriber($name: String!, $email: String!) {
-    createSubscriber(data: { name: $name, email: $email }) {
-      id
-    }
-  }
-`;
+import codeImg from "/src/assets/code-mockup.png";
+import { useCreateSubscriberMutation } from "../graphql/generated";
 
 export function Subscribe() {
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
 
-  const [createSubscribe, { loading }] = useMutation(
-    CREATE_SUBSCRIBER_MUTATION
-  );
+  const [createSubscribe, { loading }] = useCreateSubscriberMutation();
 
   async function handleSubscribe(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -75,11 +65,7 @@ export function Subscribe() {
           </form>
         </div>
       </div>
-      <img
-        className="mt-10"
-        src="/src/assets/code-mockup.png"
-        alt="background"
-      />
+      <img className="mt-10" src={codeImg} alt="background" />
     </div>
   );
 }
